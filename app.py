@@ -1,9 +1,3 @@
-
----
-
-# **2️⃣ app.py**
-
-```python
 import streamlit as st
 from PIL import Image
 import io
@@ -53,3 +47,4 @@ if uploaded_file and st.button("Enhance Image"):
     enhanced_image = groq_image_enhance(image, enhance_options)
     
     st.image(enhanced_image, caption="Enhanced Image", use_column_width=True)
+
