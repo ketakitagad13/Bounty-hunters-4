@@ -1,36 +1,59 @@
-#Create a real time chat application with support for multiple rooms,typing indicators and message history
 import streamlit as st
-import time
-# Initialize session state for chat history and typing indicators
-if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = {}
-if 'typing_indicators' not in st.session_state:
-    st.session_state.typing_indicators = {}
-# Function to handle sending messages
-def send_message(room, user, message):
-    if room not in st.session_state.chat_history:
-        st.session_state.chat_history[room] = []
-    st.session_state.chat_history[room].append((user, message))
-    st.session_state.typing_indicators[room] = False
-# Function to handle typing indicators
-def set_typing(room, user, is_typing):
-    if room not in st.session_state.typing_indicators:
-        st.session_state.typing_indicators[room] = {}
-    st.session_state.typing_indicators[room][user] = is_typing
-# Streamlit UI
-st.title("Real-Time Chat Application")
-room = st.text_input("Enter room name:")
+from PIL import Image
+import io
+import os
+import openai
 
-if room:
-    user = st.text_input("Enter your name:")
-    message = st.text_input("Enter your message:")
-    if st.button("Send"):
-        send_message(room, user, message)
-    if st.session_state.typing_indicators.get(room):
-        st.write(f"{user} is typing...")
-    if room in st.session_state.chat_history:
-        for sender, msg in st.session_state.chat_history[room]:
-            st.write(f"{sender}: {msg}")
-    set_typing(room, user, True)
-    time.sleep(1)  # Simulate typing delay
-    set_typing(room, user, False)
+# -----------------------
+# OpenAI Configuration
+# -----------------------
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY")
+openai.api_key = OPENAI_API_KEY
+
+# -----------------------
+# Streamlit UI
+# -----------------------
+st.set_page_config(page_title="AI Real Estate Image Enhancer", layout="wide")
+st.title("🏡 AI Real Estate Image Enhancer")
+st.markdown("""
+Enhance property images using AI:
+- **Lighting correction**  
+- **Object removal**  
+- **Virtual staging**
+""")
+
+# Image uploader
+uploaded_file = st.file_uploader("Upload property image", type=["jpg", "png"])
+enhance_options = st.multiselect(
+    "Select enhancement options",
+    ["Lighting Correction", "Object Removal", "Virtual Staging"]
+)
+
+if st.button("Enhance Image") and uploaded_file:
+    image = Image.open(uploaded_file)
+    st.image(image, caption="Original Image", use_column_width=True)
+
+    st.info("Enhancing image with AI...")
+
+    # Convert image to bytes
+    buffered = io.BytesIO()
+    image.save(buffered, format="PNG")
+    img_bytes = buffered.getvalue()
+
+    # Prepare prompt for AI
+    prompt_text = "Enhance this real estate image with: " + ", ".join(enhance_options)
+
+    try:
+        # Call OpenAI DALL·E Edit API
+        response = openai.Image.create_edit(
+            image=io.BytesIO(img_bytes),
+            prompt=prompt_text,
+            n=1,
+            size="1024x1024"
+        )
+        enhanced_url = response['data'][0]['url']
+        st.success("✅ Image enhanced successfully!")
+        st.image(enhanced_url, caption="Enhanced Image", use_column_width=True)
+        st.markdown(f"[Download Enhanced Image]({enhanced_url})")
+    except Exception as e:
+        st.error(f"Error enhancing image: {e}")
