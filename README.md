@@ -1,18 +1,23 @@
-# Bounty-hunters-4
-# AI Real Estate Image Enhancer
+# AI Real Estate Image Enhancer (Groq Ready)
 
 ## Overview
-Enhance low-quality property images using AI to improve listings and engagement. Features include:  
+Enhance low-quality property images using AI to improve listings. Features include:  
 - **Lighting correction**  
 - **Object removal**  
-- **Virtual staging** (add furniture/decor)
+- **Virtual staging** (furniture/decor simulation)  
+
+This version is **Groq-ready**, meaning the backend can be swapped to run on **Groq AI hardware** once available.
+
+---
 
 ## Features
-- Upload property images (JPG/PNG)  
-- Select multiple enhancements at once  
-- Real-time AI enhancement  
-- Download enhanced images  
-- Professional Streamlit interface  
+- Upload JPG/PNG property images  
+- Select multiple enhancements simultaneously  
+- Professional UI with Streamlit  
+- Placeholder backend simulates Groq processing  
+- Easily replace placeholder with **Groq runtime inference** later  
+
+---
 
 ## How to Run
 1. Clone the repo:  
@@ -20,4 +25,5 @@ Enhance low-quality property images using AI to improve listings and engagement.
 git clone <repo-url>
 cd real-estate-image-enhancer
 
-Demo link
+demo link
+
