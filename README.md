@@ -1,21 +1,16 @@
-# AI Real Estate Image Enhancer (Groq Ready)
+# Legal Document Explainer Bot
 
 ## Overview
-Enhance low-quality property images using AI to improve listings. Features include:  
-- **Lighting correction**  
-- **Object removal**  
-- **Virtual staging** (furniture/decor simulation)  
-
-This version is **Groq-ready**, meaning the backend can be swapped to run on **Groq AI hardware** once available.
+Simplify complex legal documents into **easy-to-understand summaries** using AI.  
+Ideal for legal professionals, students, or anyone who wants to quickly grasp key points.
 
 ---
 
 ## Features
-- Upload JPG/PNG property images  
-- Select multiple enhancements simultaneously  
-- Professional UI with Streamlit  
-- Placeholder backend simulates Groq processing  
-- Easily replace placeholder with **Groq runtime inference** later  
+- Upload PDF, DOCX, or TXT files  
+- AI-powered summarization and simplification  
+- Side-by-side display of original and simplified text  
+- Professional Streamlit UI for easy interaction  
 
 ---
 
@@ -23,7 +18,4 @@ This version is **Groq-ready**, meaning the backend can be swapped to run on **G
 1. Clone the repo:  
 ```bash
 git clone <repo-url>
-cd real-estate-image-enhancer
-
-demo link
-
+cd legal-document-explainer
