@@ -1,9 +1,3 @@
-
----
-
-# **2️⃣ app.py**
-
-```python
 import streamlit as st
 from PyPDF2 import PdfReader
 from docx import Document
@@ -61,3 +55,4 @@ if uploaded_file:
             summary = summarize_text(original_text)
         st.subheader("Simplified Summary")
         st.text_area("", summary, height=300)
+
