@@ -1,20 +1,35 @@
+
+---
+
+# **2️⃣ app.py**
+
+```python
 import streamlit as st
 from PIL import Image
 import io
 import os
-import openai
+import numpy as np
 
 # -----------------------
-# OpenAI Configuration
+# Groq Placeholder Backend
 # -----------------------
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
+def groq_image_enhance(image: Image.Image, enhancements: list) -> Image.Image:
+    """
+    Placeholder function for Groq AI inference.
+    - Convert PIL image to tensor
+    - Send tensor to Groq hardware
+    - Receive enhanced tensor
+    - Convert back to PIL
+    Currently simulates enhancement by returning the original image.
+    """
+    st.info(f"Simulating Groq enhancement: {', '.join(enhancements)}")
+    return image
 
 # -----------------------
 # Streamlit UI
 # -----------------------
 st.set_page_config(page_title="AI Real Estate Image Enhancer", layout="wide")
-st.title("🏡 AI Real Estate Image Enhancer")
+st.title("🏡 AI Real Estate Image Enhancer (Groq Ready)")
 st.markdown("""
 Enhance property images using AI:
 - **Lighting correction**  
@@ -29,31 +44,12 @@ enhance_options = st.multiselect(
     ["Lighting Correction", "Object Removal", "Virtual Staging"]
 )
 
-if st.button("Enhance Image") and uploaded_file:
+# Enhance button
+if uploaded_file and st.button("Enhance Image"):
     image = Image.open(uploaded_file)
     st.image(image, caption="Original Image", use_column_width=True)
-
-    st.info("Enhancing image with AI...")
-
-    # Convert image to bytes
-    buffered = io.BytesIO()
-    image.save(buffered, format="PNG")
-    img_bytes = buffered.getvalue()
-
-    # Prepare prompt for AI
-    prompt_text = "Enhance this real estate image with: " + ", ".join(enhance_options)
-
-    try:
-        # Call OpenAI DALL·E Edit API
-        response = openai.Image.create_edit(
-            image=io.BytesIO(img_bytes),
-            prompt=prompt_text,
-            n=1,
-            size="1024x1024"
-        )
-        enhanced_url = response['data'][0]['url']
-        st.success("✅ Image enhanced successfully!")
-        st.image(enhanced_url, caption="Enhanced Image", use_column_width=True)
-        st.markdown(f"[Download Enhanced Image]({enhanced_url})")
-    except Exception as e:
-        st.error(f"Error enhancing image: {e}")
+    
+    # Call Groq placeholder backend
+    enhanced_image = groq_image_enhance(image, enhance_options)
+    
+    st.image(enhanced_image, caption="Enhanced Image", use_column_width=True)
